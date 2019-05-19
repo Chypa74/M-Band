@@ -1,34 +1,29 @@
 const mongoose = require('mongoose');
+const BandModel = require('./models/BandModel');
+const UserModel = require('./models/UserModel');
+
 mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   useNewUrlParser: true,
   dbName: 'social_network'
 });
 
-const Schema = mongoose.Schema;
+UserModel.findOne({ _id: '5ce18e00ca9fd9c8775a6d39' }, function(err, user) {
+  const userId = user._id;
 
-const bandSchema = new Schema({
-  band_id: Number,
-  name: String,
-  creator: { user_id: Number, user_name: String },
-  users: [
-    { user_id: Number, user_name: String },
-    { user_id: Number, user_name: String }
-  ]
-});
+  const band = new BandModel({
+    name: 'Imagine dragons',
+    creator: userId,
+    users: []
+  });
 
-const Band = mongoose.model('band', bandSchema);
+  band.save(function(err, q) {
+    console.log('Saved ----');
+    console.log(q);
 
-const Band1 = new Band({
-  band_id: 1,
-  name: 'Imagine dragons',
-  creator: { user_id: 1, user_name: 'John Doe' },
-  users: [
-    { user_id: 2, user_name: 'Mickhael' },
-    { user_id: 3, user_name: 'Nick' }
-  ]
-});
+    mongoose.disconnect(); // отключение от базы данных
 
-Band1.save(function(err, q) {
-  console.log('Saved ----');
-  console.log(q);
+    if (err) return console.log(err);
+
+    console.log('Сохранен объект', user);
+  });
 });

@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
-const MessageSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const MessageSchema = new Schema({
   isItSent: Boolean,
-  user_id: String,
-  user_name: String,
+  user_id: { type: Schema.Types.ObjectId, ref: 'User' },
   text: String,
   date: Date
 });

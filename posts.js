@@ -9,8 +9,10 @@ mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
 });
 
 UserModel.findOne({ _id: '5ce18e00ca9fd9c8775a6d39' }, function(err, user) {
+  if (err) {
+    return console.log(mongoose.disconnect(););
+  }
   const userId = user._id;
-  console.log(userId);
 
   const post = new PostModel({
     user_id: userId,

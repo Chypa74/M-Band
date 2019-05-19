@@ -1,44 +1,32 @@
 const mongoose = require('mongoose');
+const UserSchema = require('./schemas/UserSchema');
+
 mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   useNewUrlParser: true,
-  dbName: 'social_network'
+  dbName: 'social_network',
+  autoIndex: false
 });
 
-const Schema = mongoose.Schema;
+const UserModel = mongoose.model('User', UserSchema);
 
-const userSchema = new Schema({
-  user_id: Number,
-  user_name: String,
-  type: String,
-  group: Object,
-  messages: [
-    {
-      isItSent: Boolean,
-      user_id: Number,
-      user_name: String,
-      text: String,
-      date: Date
-    }
-  ],
-  friends: [{ user_id: Number, user_name: String }],
-  _email: String,
-  _password: String
-});
-
-const User = mongoose.model('user', userSchema);
-
-const User1 = new User({
-  user_id: 2,
+const user = new UserModel({
+  _id: new mongoose.Types.ObjectId(),
   user_name: 'Michael Jackson',
-  type: 'musicion',
+  type: 'musician',
   group: null,
   messages: [],
-  friends: [{ user_id: 1, user_name: 'John' }],
-  _email: 'jackso@gmail.com',
+  friends: [],
+  _email: 'jackson@gmail.com',
   _password: '12333'
 });
 
-User1.save(function(err, q) {
+user.save(async function(err, q) {
   console.log('Saved ----');
   console.log(q);
+
+  mongoose.disconnect(); // отключение от базы данных
+
+  if (err) return console.log(err);
+
+  console.log('Сохранен объект', user);
 });

@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const UserSchema = require('./schemas/UserSchema');
+const UserModel = require('./models/UserModel');
 
 mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   useNewUrlParser: true,
   dbName: 'social_network',
   autoIndex: false
 });
-
-const UserModel = mongoose.model('User', UserSchema);
 
 const user = new UserModel({
   _id: new mongoose.Types.ObjectId(),

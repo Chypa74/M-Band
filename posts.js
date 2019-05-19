@@ -1,41 +1,34 @@
 const mongoose = require('mongoose');
+const PostModel = require('./models/PostModel');
+const UserModel = require('./models/UserModel');
+
 mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   useNewUrlParser: true,
-  dbName: 'social_network'
+  dbName: 'social_network',
+  autoIndex: false
 });
 
-const Schema = mongoose.Schema;
+UserModel.findOne({ _id: '5ce18e00ca9fd9c8775a6d39' }, function(err, user) {
+  const userId = user._id;
+  console.log(userId);
 
-const postSchema = new Schema({
-  post_id: Number,
-  user_id: Number,
-  user_name: String,
-  tags: [String],
-  content: String,
-  likes: [{ user_id: String, user_name: String }],
-  comments: [{ user_id: String, user_name: String, content: String }]
-});
+  const post = new PostModel({
+    user_id: userId,
+    tags: ['music', 'composition', 'hobby'],
+    content:
+      "Some quick example text to build on the card title and make up the bulk of the card's content.",
+    likes: [],
+    comments: []
+  });
 
-const Post = mongoose.model('post', postSchema);
+  post.save(function(err, q) {
+    console.log('Saved ----');
+    console.log(q);
 
-const Post1 = new Post({
-  post_id: 1,
-  user_id: 1,
-  user_name: 'John Doe',
-  tags: ['music', 'composition', 'hobby'],
-  content:
-    "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  likes: [
-    { user_id: 1, user_name: 'John Doe' },
-    { user_id: 2, user_name: 'Michael' }
-  ],
-  comments: [
-    { user_id: 1, user_name: 'John Doe', content: 'Some quick example' },
-    { user_id: 2, user_name: 'Michael', content: 'Some example' }
-  ]
-});
+    mongoose.disconnect(); // отключение от базы данных
 
-Post1.save(function(err, q) {
-  console.log('Saved ----');
-  console.log(q);
+    if (err) return console.log(err);
+
+    console.log('Сохранен объект', user);
+  });
 });

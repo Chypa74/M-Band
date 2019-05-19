@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const CommentSchema = require('./CommentSchema');
 
 const Schema = mongoose.Schema;
 
@@ -7,7 +8,7 @@ const PostSchema = new Schema({
   tags: [String],
   content: String,
   likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+  comments: [CommentSchema]
 });
 
 module.exports = PostSchema;

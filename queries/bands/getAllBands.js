@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const argv = require('yargs-parser')(process.argv.slice(2));
-const UserModel = require('../../models/UserModel');
+const BandModel = require('../../models/BandModel');
 
 mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   useNewUrlParser: true,
@@ -8,10 +7,7 @@ mongoose.connect('mongodb+srv://Admin:Admin@cluster0-lvxbg.mongodb.net/test', {
   autoIndex: false
 });
 
-const { user_name } = argv;
-
-UserModel.findOne({ user_name: user_name }, function(err, docs) {
+BandModel.find(null, function(err, docs) {
   console.log(docs);
   mongoose.disconnect();
-  if (err) return console.log(err);
 });

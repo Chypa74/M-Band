@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "mongoose": "^5.5.8"
+    "mongoose": "^5.5.8",
+    "yargs-parser": "^13.1.0"
   }
 }
